@@ -28,6 +28,8 @@ public class Fmtest2MainActivity extends Activity implements Observer {
 	EditText changeText;
 	TextView recordText;
 	Button submitBotton;
+	TextView infoview;
+	TextView changeview;
 
 	TestOb tob = new TestOb();
 
@@ -41,9 +43,12 @@ public class Fmtest2MainActivity extends Activity implements Observer {
 		setContentView(R.layout.activity_fmtest2_main);
 		// Get view elements
 		changeText = (EditText) findViewById(R.id.editText1);
+		changeview= (TextView) findViewById(R.id.textView3);
 		recordText = (TextView) findViewById(R.id.textview1);
 		submitBotton = (Button) findViewById(R.id.button1);
-
+		infoview=(TextView) findViewById(R.id.textView2);
+	
+		
 		// Set up channel;
 		initialChannel();
 	}
@@ -61,16 +66,22 @@ public class Fmtest2MainActivity extends Activity implements Observer {
 
 			String user = "test" + Build.MODEL;
 			ControlCenter.setUpConnections("fmtest2", user);
+			infoview.append("Number of peers: "+ControlCenter.getNoOfPeers());
+			ControlCenter.getMyAddress();
+			ControlCenter.getPeerName(ControlCenter.getMyAddress());
+			//infoview.append("\n my peer name:"+ControlCenter.getPeerName(ControlCenter.getMyAddress()));
 			
 			Vector shareObs = ControlCenter.getAllObjects();
 
 			if (shareObs.size() == 0) {
 				this.tob = (TestOb) ControlCenter.createNewObject(TestOb.class);
 				Log.i("fmtest2Activity", "Create a new TestOb");
+				infoview.append("\n Create a new TestOb");
 
 			} else {
 				this.tob = (TestOb) shareObs.get(0);
 				Log.i("fmtest2Activity", "join and share the TestOb");
+				infoview.append("\n join and share the TestOb ");
 			}
 			this.tob.addObserver(this);
 			this.update(tob, null);
@@ -101,15 +112,24 @@ public class Fmtest2MainActivity extends Activity implements Observer {
 		
 		tob.change();
 		Log.i("fmtest2", "object changed");
+		infoview.append("\n object changed :" +tob.getChange()+"  "+tob.getRecord());
 		this.update(tob, null);
 
 	}
 
 	public void update(Observable observable, Object data) {
 		// TODO Auto-generated method stub
-		recordText.setText(tob.getRecord());
-		changeText.setText(tob.getChange());
-
+		
+		TestOb uptob=(TestOb)observable;
+		Log.i("fmtest2","in Observer update()  "+uptob.getChange()+"  "+uptob.getRecord());
+		//infoview.append("\n in Observer update()  "+uptob.getChange()+"  "+uptob.getRecord());
+		
+		changeview.setText(uptob.getChange());
+		
+		recordText.setText(uptob.getRecord());
+		
+		
+		
 	}
 
 	@Override
