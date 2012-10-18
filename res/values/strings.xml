@@ -8,5 +8,6 @@
     <string name="viewString">Change number</string>
     <string name="infoview">test record</string>
     <string name="textView3">Change view</string>
+    <string name="starttest">StartTest</string>
 
 </resources>

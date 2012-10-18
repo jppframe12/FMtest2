@@ -4,6 +4,7 @@ import org.nzdis.fragme.factory.FactoryObject;
 import org.nzdis.fragme.factory.FragMeFactory;
 import org.nzdis.fragme.objects.FMeObject;
 
+
 import android.util.Log;
 
 public class TestOb extends FMeObject {
@@ -28,6 +29,16 @@ public class TestOb extends FMeObject {
 		Log.i("Test object: ", "Received a change notification!");
 		this.setChanged();
 		this.notifyObservers();
+		/*//for test
+				if (Integer.valueOf(this.getRecord())==4){
+				Long preTime=Fmtest2MainActivity.preTime;
+				
+				Long currentTime=System.nanoTime();//currentTimeMillis();
+				System.out.println("send change time: "+preTime);
+				System.out.println("receive change time: "+currentTime);
+				Long diff =(currentTime-preTime)/1000000000;
+				System.out.println("diff time: "+diff+" second");
+				}*/
 
 	}
 
